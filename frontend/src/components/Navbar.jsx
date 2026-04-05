@@ -10,27 +10,61 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  const fontStyle = {
+    fontFamily: 'Aptos, Segoe UI, sans-serif',
+  };
+
   return (
-    <nav className="bg-[#b7c7a3] text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Invoice Management System</Link>
-      <div>
+    <nav className="bg-[#b7c7a3] h-14 px-6 flex justify-between items-center">
+      <Link
+        to="/"
+        className="text-xl font-semibold text-black"
+        style={fontStyle}
+      >
+        Invoice Management System
+      </Link>
+
+      <div className="flex items-center">
         {user ? (
           <>
-            <Link to="/tasks" className="mr-4">Tasks</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
+            <Link
+              to="/tasks"
+              className="mr-4 text-black hover:underline"
+              style={fontStyle}
+            >
+              Tasks
+            </Link>
+
+            <Link
+              to="/profile"
+              className="mr-4 text-black hover:underline"
+              style={fontStyle}
+            >
+              Profile
+            </Link>
+
             <button
               onClick={handleLogout}
-              className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"
+              className="bg-red-500 px-4 py-2 rounded text-white hover:bg-red-700"
+              style={fontStyle}
             >
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="mr-4">Login</Link>
+            <Link
+              to="/login"
+              className="mr-4 text-black hover:underline"
+              style={fontStyle}
+            >
+              Login
+            </Link>
+
             <Link
               to="/register"
-              className="bg-green-500 px-4 py-2 rounded hover:bg-green-700"
+              className="bg-green-500 px-4 py-2 rounded text-white hover:bg-green-700"
+              style={fontStyle}
             >
               Register
             </Link>

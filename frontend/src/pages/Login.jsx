@@ -20,26 +20,40 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#eaddca] flex flex-col items-center justify-center">
-      <form onSubmit={handleSubmit} className="bg-white/60 backdrop-blur-sm p-10 shadow-xl rounded-3xl w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+    <div className="min-h-screen bg-[#f3ede3] flex items-start justify-center pt-20 px-4">
+      
+      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+        
+        <h1 className="text-4xl font-bold mb-2">LogIn</h1>
+        <p className="text-sm text-gray-500 mb-6">Welcome Back!</p>
+
         <input
           type="email"
           placeholder="Email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full mb-6 p-4 bg-white border-none rounded-full shadow-inner outline-none"
+          className="w-full h-11 px-4 mb-4 bg-white border border-gray-200 rounded-md outline-none focus:ring-2 focus:ring-[#b7c88a]"
         />
+
         <input
           type="password"
           placeholder="Password"
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          className="w-full mb-4 p-2 border rounded"
+          className="w-full h-11 px-4 mb-2 bg-white border border-gray-200 rounded-md outline-none focus:ring-2 focus:ring-[#b7c88a]"
         />
-        <button type="submit" className="w-full bg-[#b7c7a3] hover:bg-[#a3b18a] text-white font-bold py-3 rounded-full transition duration-300">
-          Login
+
+        <p className="text-xs text-gray-500 mb-4 cursor-pointer hover:underline">
+          Forgot Password?
+        </p>
+
+        <button
+          type="submit"
+          className="w-full h-11 bg-white border border-gray-200 text-black font-semibold rounded-md hover:bg-gray-50 transition"
+        >
+          Sign In
         </button>
+
       </form>
     </div>
   );
