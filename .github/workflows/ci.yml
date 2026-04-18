@@ -58,7 +58,7 @@ jobs:
         yarn install
         yarn run build
 
-      -run: |
+    - run: |
        cd ./backend
        touch .env
        echo "${{ secrets.PROD }}" > .env
