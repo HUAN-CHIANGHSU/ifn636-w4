@@ -58,10 +58,7 @@ jobs:
         yarn install
         yarn run build
 
-    - run: |
-       cd ./backend
-       touch .env
-       echo "${{ secrets.PROD }}" > .env
+   
 
 
     # Run backend tests
@@ -73,7 +70,12 @@ jobs:
       working-directory: ./backend
       run: npm test
 
+    - run: npm ci  
 
+    - run: |
+       cd ./backend
+       touch .env
+       echo "${{ secrets.PROD }}" > .env
   
 
     - run: pm2 start all
