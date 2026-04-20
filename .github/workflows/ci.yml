@@ -1,71 +1,68 @@
-name: Backend CI 
+name: Backend CI
 
-on: 
- push: 
-  branches: 
-    - main 
+on:
+  push:
+    branches:
+      - main
 
+jobs:
+  test:
+    name: Run Tests
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        node-version: [22]
+    environment: MONGO_URI
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-jobs: 
- test: 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-name: Run Tests 
-runs-on: self-hosted 
-strategy:
-    matrix: 
-       node-version: [22] 
-environment: MONGO_URI 
-steps: 
-- name: Checkout Code
-  uses: actions/checkout@v3 
+      - name: Print Env Secret
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: ${{ secrets.PORT }}
+        run: |
+          echo "Secret 1 is: $MONGO_URI" # Print MongoDB URI
+          echo "Secret 2 is: $JWT_SECRET" # Print JWT Secret
+          echo "Secret 3 is: $PORT" # Print Application Port
 
-- name: Setup Node.js
-  uses: actions/setup-node@v3 
-  with:
-    node-version: ${{ matrix.node-version }} 
+      - run: pm2 stop all
 
-- name: Print Env Secret
-  env: 
-     MONGO_URI: ${{ secrets.MONGO_URI }} 
-     JWT_SECRET: ${{ secrets.JWT_SECRET }} 
-     PORT: ${{ secrets.PORT }} 
-  run: | 
-     echo "Secret 1 is: $MONGO_URI" # Print MongoDB URI
-     echo "Secret 2 is: $JWT_SECRET" # Print JWT Secret
-     echo "Secret 3 is: $PORT" # Print Application Port
-     
-- run: pm2 stop all 
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: |
+          npm install --global yarn # Install Yarn globally
+          yarn --version # Verify Yarn installation
+          yarn install # Install backend dependencies using Yarn
 
-- name: Install Backend Dependencies
-  working-directory: ./backend 
-  run: | 
-    npm install --global yarn # Install Yarn globally
-    yarn --version # Verify Yarn installation
-    yarn install # Install backend dependencies using Yarn
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: |
+          df -h Show disk space usage
+          sudo rm -rf ./build # Remove existing build directory
+          yarn install # Install frontend dependencies
+          yarn run build # Build the frontend application
 
-- name: Install Frontend Dependencies
-  working-directory: ./frontend 
-  run: | 
+      - name: Run Backend Tests
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: ${{ secrets.PORT }}
+        working-directory: ./backend
+        run: npm test
 
-   df -h Show disk space usage
-   sudo rm -rf ./build # Remove existing build directory
-   yarn install # Install frontend dependencies
-   yarn run build # Build the frontend application
+      - run: npm ci
 
-- name: Run Backend Tests
-  env: 
-    MONGO_URI: ${{ secrets.MONGO_URI }} 
-    JWT_SECRET: ${{ secrets.JWT_SECRET }} 
-    PORT: ${{ secrets.PORT }} 
-  working-directory: ./backend 
-  run: npm test 
+      - run: |
+          cd ./backend
+          touch .env
+          echo "${{ secrets.PROD }}" > .env
 
-- run: npm ci 
-
-- run: | 
-    cd ./backend 
-    touch .env 
-    echo "${{ secrets.PROD }}" > .env 
-
-- run: pm2 start all 
-- run: pm2 restart all 
+      - run: pm2 start all
+      - run: pm2 restart all
