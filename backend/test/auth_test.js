@@ -9,7 +9,7 @@ const testLoginFlow = async () => {
         const logRes = await axios.post(`${API_URL}/login`, { email: regData.email, password: regData.password });
         //console.log('log in successful take Token');
         const profRes = await axios.get(`${API_URL}/profile`, { headers: { Authorization: `Bearer ${logRes.data.token}` } });
-        //console.log(' entry Profile successful:', profRes.data.name);
+        //console.log(' entry Profile successful:', profRes.data.name);sd
     } catch (e) { console.error('❌ fail:', e.response ? e.response.data : e.message); }
 };
 testLoginFlow();
