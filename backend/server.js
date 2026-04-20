@@ -7,7 +7,7 @@ dotenv.config();
 
 const app = express();
 
-
+//connection
 connectDB(); 
 
 app.use(cors());
