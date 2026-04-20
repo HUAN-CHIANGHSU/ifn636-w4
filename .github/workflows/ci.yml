@@ -55,7 +55,7 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           PORT: ${{ secrets.PORT }}
         working-directory: ./backend
-        run: npm test
+        run: npm test -- --exit
 
       - run: npm ci
 
