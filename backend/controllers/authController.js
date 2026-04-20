@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
     const { email, password } = req.body;
     try {
         const userExists = await User.findOne({ email });
-        if (userExists) return res.status(400).json({ message: 'Email 已存在' });
+        //if (userExists) return res.status(400).json({ message: 'Email 已存在' });
 
     
         const salt = await bcrypt.genSalt(10);
