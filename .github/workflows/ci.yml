@@ -28,9 +28,9 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           PORT: ${{ secrets.PORT }}
         run: |
-          echo "Secret 1 is: $MONGO_URI" # Print MongoDB URI
-          echo "Secret 2 is: $JWT_SECRET" # Print JWT Secret
-          echo "Secret 3 is: $PORT" # Print Application Port
+          echo "Secret 1 is: $MONGO_URI" 
+          echo "Secret 2 is: $JWT_SECRET" 
+          echo "Secret 3 is: $PORT" 
 
       - run: pm2 stop all
 
@@ -39,15 +39,15 @@ jobs:
         run: |
           npm install --global yarn # Install Yarn globally
           yarn --version # Verify Yarn installation
-          yarn install # Install backend dependencies using Yarn
+          yarn install 
 
       - name: Install Frontend Dependencies
         working-directory: ./frontend
         run: |
-          df -h Show disk space usage
-          sudo rm -rf ./build # Remove existing build directory
-          yarn install # Install frontend dependencies
-          yarn run build # Build the frontend application
+          df -h 
+          sudo rm -rf ./build 
+          yarn install 
+          yarn run build 
 
       - name: Run Backend Tests
         env:
